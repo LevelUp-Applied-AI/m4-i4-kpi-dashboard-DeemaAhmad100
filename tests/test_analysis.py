@@ -87,7 +87,7 @@ def test_analysis_script_has_functions():
     """Verify analysis.py defines the required function signatures."""
     content = Path("analysis.py").read_text()
     required = ["def connect_db", "def extract_data", "def compute_kpis",
-                "def run_statistical_tests", "def create_visuals", "def main"]
+                "def run_statistical_tests", "def create_visualizations", "def create_interactive_dashboard", "def main"]
     for func in required:
         assert func in content, f"analysis.py is missing function: {func}"
 

@@ -10,18 +10,12 @@ from scipy import stats
 from sqlalchemy import create_engine
 
 
-# -------------------------------
-# 1. CONNECT TO DATABASE
-# -------------------------------
 def connect_db():
     engine = create_engine("postgresql+psycopg://postgres:postgres@localhost:5432/amman_market")
     print("Connected to Amman Digital Market database successfully!\n")
     return engine
 
 
-# -------------------------------
-# 2. DATA EXTRACTION + CLEANING
-# -------------------------------
 def extract_data(engine):
     customers = pd.read_sql("SELECT * FROM customers", engine)
     products = pd.read_sql("SELECT * FROM products", engine)
@@ -54,9 +48,6 @@ def extract_data(engine):
     }
 
 
-# -------------------------------
-# 3. COMPUTE KPIs
-# -------------------------------
 def compute_kpis(data):
     df = data["df"]
 
@@ -83,9 +74,6 @@ def compute_kpis(data):
     }
 
 
-# -------------------------------
-# 4. STATISTICAL TESTS
-# -------------------------------
 def run_statistical_tests(data):
     kpis = compute_kpis(data)
     df = kpis["df"]
@@ -115,10 +103,7 @@ def run_statistical_tests(data):
     return results
 
 
-# -------------------------------
-# 5. VISUALIZATIONS
-# -------------------------------
-def create_visuals(kpis):
+def create_visualizations(kpis):
     os.makedirs("output", exist_ok=True)
     sns.set_palette("colorblind")
     sns.set_style("whitegrid")
@@ -160,9 +145,6 @@ def create_visuals(kpis):
     print("All 5 KPI visualizations have been created and saved in output/ folder\n")
 
 
-# -------------------------------
-# Tier 1: Interactive Dashboard
-# -------------------------------
 def create_interactive_dashboard(kpis):
     import plotly.express as px
     import plotly.graph_objects as go
@@ -200,9 +182,6 @@ def create_interactive_dashboard(kpis):
     print("   Saved as: output/dashboard.html\n")
 
 
-# -------------------------------
-# MAIN
-# -------------------------------
 def main():
     print("Starting Amman Digital Market KPI Dashboard...\n")
 
@@ -212,7 +191,7 @@ def main():
     kpis = compute_kpis(data)
     stats_results = run_statistical_tests(data)
     
-    create_visuals(kpis)
+    create_visualizations(kpis)
     create_interactive_dashboard(kpis)
 
     print("Final Summary:")
